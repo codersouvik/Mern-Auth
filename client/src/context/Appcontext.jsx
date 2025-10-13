@@ -8,8 +8,8 @@ import { data } from "react-router-dom";
 export const AppContent = createContext()
 
 export const AppContextProvider = (props) => {
-
-
+ 
+   const VITE_BACKEND_URL = 'https://mern-auth-hvn9.onrender.com'
     axios.defaults.withCredentials = true; 
 
     const backendUrl = import.meta.env.VITE_BACKEND_URL
