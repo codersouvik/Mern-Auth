@@ -2,7 +2,6 @@ import { createContext, useState ,useEffect} from "react";
 import { toast } from 'react-toastify'
 import axios from 'axios'
 import { data } from "react-router-dom";
-import 'dotenv/config';
 
 
 export const AppContent = createContext()
