@@ -198,41 +198,7 @@ export const isAuthenticated = (req, res) => {
 }
 
 export const SendResetOtp = async (req, res) => {
-
-    const { email } = req.body;
-    if (!email) {
-        return res.json({ success: false, message: 'Email is required' })
-    }
-    try {
-
-        const user = await UserModel.findOne({ email });
-
-        if (!user) {
-            return res.json({ success: false, message: 'User not found' })
-        }
-
-        const otp = String(Math.floor(100000 + Math.random() * 900000));
-
-        user.resetotp = otp;
-        user.resetotpexpireat = Date.now() + 15 * 60 * 1000;
-
-        await user.save();
-
-        const mailOptions = {
-            from: process.env.SENDER_EMAIL,
-            to: user.email,
-            subject: `Password Reset OTP`,
-            text: `Your OTP for reseting your password is ${otp}`
-        }
-
-        await transporter.sendMail(mailOptions);
-
-        return res.json({ success: true, message: 'OTP sent to your email' })
-
-    }
-    catch (error) {
-        return res.json({ success: false, message: error.message });
-    }
+    res.json({ success: true, message: "OTP route is working!" });
 }
 
 export const ResetPassword = async (req, res) => {
