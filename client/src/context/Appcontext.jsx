@@ -8,7 +8,7 @@ export const AppContent = createContext()
 
 export const AppContextProvider = (props) => {
  
-  const backendUrl = https://mern-auth-hvn9.onrender.com;
+  const backendUrl = "https://mern-auth-hvn9.onrender.com";
     axios.defaults.withCredentials = true; 
 
     
