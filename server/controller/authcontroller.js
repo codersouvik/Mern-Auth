@@ -203,7 +203,7 @@ export const SendResetOtp = async (req, res) => {
         return res.json({ success: false, message: 'Email is required' })
     }
     try {
-
+          console.log("1. Starting database search...");
         const user = await UserModel.findOne({ email });
 
         if (!user) {
