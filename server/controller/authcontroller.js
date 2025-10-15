@@ -209,14 +209,14 @@ export const SendResetOtp = async (req, res) => {
         if (!user) {
             return res.json({ success: false, message: 'User not found' })
         }
-
+        console.log("2. User found. Generating OTP...");
         const otp = String(Math.floor(100000 + Math.random() * 900000));
 
         user.resetotp = otp;
         user.resetotpexpireat = Date.now() + 15 * 60 * 1000;
 
         await user.save();
-
+       console.log("3. User saved. Sending email...");
         const mailOptions = {
             from: process.env.SENDER_EMAIL,
             to: user.email,
@@ -225,11 +225,12 @@ export const SendResetOtp = async (req, res) => {
         }
 
         await transporter.sendMail(mailOptions);
-
+         console.log("4. Email sent successfully."); 
         return res.json({ success: true, message: 'OTP sent to your email' })
 
     }
     catch (error) {
+          console.error("Critical Error in OTP Route:", error);
         return res.json({ success: false, message: error.message });
     }
 }
