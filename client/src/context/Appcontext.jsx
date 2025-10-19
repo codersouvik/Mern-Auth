@@ -3,13 +3,14 @@ import { toast } from 'react-toastify'
 import axios from 'axios'
 import { data } from "react-router-dom";
 
+ axios.defaults.withCredentials = true; 
 
 export const AppContent = createContext()
 
 export const AppContextProvider = (props) => {
  
-  const backendUrl="https://mern-auth-hvn9.onrender.com";
-    axios.defaults.withCredentials = true; 
+const backendUrl = import.meta.env.VITE_BACKEND_URL || "https://mern-auth-hvn9.onrender.com";
+   
 
     
     const [isloggedin, setIsloggedin] = useState(false);
