@@ -9,7 +9,7 @@ export const AppContent = createContext()
 
 export const AppContextProvider = (props) => {
  
-const backendUrl = import.meta.env.VITE_BACKEND_URL || "https://mern-auth-hvn9.onrender.com";
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
    
 
     
