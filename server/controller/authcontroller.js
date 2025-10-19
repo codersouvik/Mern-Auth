@@ -203,13 +203,13 @@ export const SendResetOtp = async (req, res) => {
         return res.json({ success: false, message: 'Email is required' })
     }
     try {
-          console.log("1. Starting database search...");
+        
         const user = await UserModel.findOne({ email });
 
         if (!user) {
             return res.json({ success: false, message: 'User not found' })
         }
-        console.log("2. User found. Generating OTP...");
+       
         const otp = String(Math.floor(100000 + Math.random() * 900000));
 
         user.resetotp = otp;
@@ -224,27 +224,30 @@ export const SendResetOtp = async (req, res) => {
             text: `Your OTP for reseting your password is ${otp}`
         }
 
-        await transporter.sendMail(mailOptions);
-         console.log("4. Email sent successfully."); 
+       try {
+      await transporter.sendMail(mailOptions);
+      console.log('OTP email sent successfully');
+    } catch (emailErr) {
+      console.error('Email sending failed:', emailErr.message);
+      // Do not block user flow if email fails
+    }
+      console.error('Critical Error in OTP Route:', error);
         return res.json({ success: true, message: 'OTP sent to your email' })
 
     }
     catch (error) {
-          console.error("Critical Error in OTP Route:", error);
+     
         return res.json({ success: false, message: error.message });
     }
 }
 
 export const ResetPassword = async (req, res) => {
-    const { email} = req.body;
-     const { otp } = req.body;
-     const {newPassword } =req.body;
-   
+    const { email, otp, newPassword } = req.body;
     if (!email || !otp || !newPassword) {
         return res.json({ success: false, message: 'Email ,OTP , New Password are required' })
     }
     try {
-           const user = await UserModel.findOne({email});
+           const user = await UserModel.findOne( { email: email.toLowerCase() });
            if(!user){
             return res.json({success:false,message:'User not found'})
            }
@@ -268,6 +271,7 @@ export const ResetPassword = async (req, res) => {
            return res.json({success:true,message:'Password has been reset successfully'})
     }
     catch (error) {
+        console.error('Reset Password Error:', error);
         return res.json({ success: false, message: error.message });
 
     }
